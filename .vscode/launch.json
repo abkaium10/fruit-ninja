@@ -1,0 +1,28 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Debug Raylib App",
+            "type": "cppdbg",
+            "request": "launch",
+
+            "program": "${workspaceFolder}/main.exe",
+
+            "args": [],
+
+            "stopAtEntry": false,
+
+            "cwd": "${workspaceFolder}",
+
+            "environment": [],
+
+            "externalConsole": false,
+
+            "MIMode": "gdb",
+
+            "miDebuggerPath": "C:\\msys64\\ucrt64\\bin\\gdb.exe",
+
+            "preLaunchTask": "Build Raylib App"
+        }
+    ]
+}
