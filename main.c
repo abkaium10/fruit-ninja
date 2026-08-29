@@ -4,10 +4,13 @@
 #define HEIGHT 600
 #define NUM_FRUITS 5
 #define MAX_FRUITS 5
+
 typedef struct{
     Texture2D Frame[3];
 }Fruit;
+
 Fruit Fruits[NUM_FRUITS];
+
 typedef struct{
     Vector2 position;
     Vector2 velocity;
@@ -15,6 +18,7 @@ typedef struct{
     bool active;
 
 }Moving_Fruits;
+
 Moving_Fruits moving_Fruits[MAX_FRUITS];
 
 int main(void)
@@ -22,6 +26,7 @@ int main(void)
     InitWindow(800, 600, "Fruit Ninja");
     SetTargetFPS(60);
     Texture2D background = LoadTexture("assets/fruit_Ninja_Bg.png");
+    //Texture Load
     for(int i=0;i<NUM_FRUITS;i++){
         for(int j=0;j<3;j++){
             char filename[50];
@@ -40,7 +45,8 @@ int main(void)
         BeginDrawing();
         ClearBackground(RAYWHITE);
         DrawTexture(background, 0, 0, WHITE);
-        if(timer>time){
+        //Fruits active and Initial value add
+        if(timer>=time){
             timer=0;
             for(int i=0;i<MAX_FRUITS;i++){
                 if(!moving_Fruits[i].active){
@@ -55,6 +61,7 @@ int main(void)
                 }
             }
         }
+        //moving value update
         for(int i=0;i<MAX_FRUITS;i++){
             if(moving_Fruits[i].active){
                 // Move
