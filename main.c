@@ -13,7 +13,8 @@ float GetRandomFloat(float min, float max)
     return ((float)rand() / (float)RAND_MAX) * (max - min) + min;
 }
 
-// Ei frame ta bujhbo
+// Fruit & Moving_Fruits structure
+
 typedef struct
 {
     Texture2D Frame[3];
@@ -45,7 +46,9 @@ int main(void)
     InitWindow(800, 600, "Fruit Ninja");
     SetTargetFPS(60);
     Texture2D background = LoadTexture("assets/fruit_Ninja_Bg.png");
-    // Texture Load
+
+    // --------------Texture Load----------
+
     for (int i = 0; i < NUM_FRUITS; i++)
     {
         for (int j = 0; j < 3; j++)
@@ -73,49 +76,6 @@ int main(void)
         if (life > 0)
         {
 
-            // slice check
-            if (IsMouseButtonDown(MOUSE_BUTTON_LEFT))
-            {
-                Vector2 mouse = GetMousePosition();
-
-                for (int i = 0; i < MAX_FRUITS; i++)
-                {
-                    if (!moving_Fruits[i].active)
-                        continue;
-                    if (moving_Fruits[i].sliced)
-                        continue;
-
-                    int type = moving_Fruits[i].type;
-                    Texture2D texture = Fruits[type].Frame[0];
-
-                    Rectangle fruitRect =
-                        {
-                            moving_Fruits[i].position.x,
-                            moving_Fruits[i].position.y,
-                            (float)texture.width,
-                            (float)texture.height};
-
-                    if (CheckCollisionPointRec(mouse, fruitRect))
-                    {
-                        moving_Fruits[i].sliced = true;
-                        score += 10;
-                        if (score > maxScore)
-                        {
-                            maxScore = score;
-                        }
-
-                        moving_Fruits[i].slice1position =
-                            moving_Fruits[i].position;
-
-                        moving_Fruits[i].slice1velocity = moving_Fruits[i].velocity;
-
-                        moving_Fruits[i].slice2position =
-                            moving_Fruits[i].position;
-
-                        moving_Fruits[i].slice2velocity = moving_Fruits[i].velocity;
-                    }
-                }
-            }
             // Fruits active and Initial value add
             if (timer >= time)
             {
@@ -128,7 +88,7 @@ int main(void)
                         moving_Fruits[i].active = true;
                         moving_Fruits[i].sliced = false;
                         moving_Fruits[i].position.x = GetRandomValue(0, 600);
-                        moving_Fruits[i].position.y = HEIGHT - 20;
+                        moving_Fruits[i].position.y = HEIGHT;
                         if (moving_Fruits[i].position.x < 300)
                         {
                             moving_Fruits[i].velocity.x = GetRandomFloat(2.0, (4.0 - moving_Fruits[i].position.x / 150));
@@ -140,6 +100,42 @@ int main(void)
                         moving_Fruits[i].velocity.y = GetRandomFloat(-6.2, -5.5);
 
                         break;
+                    }
+                }
+            }
+
+            // slice check
+            if (IsMouseButtonDown(MOUSE_BUTTON_LEFT))
+            {
+                Vector2 mouse = GetMousePosition();
+                for (int i = 0; i < MAX_FRUITS; i++)
+                {
+                    if (!moving_Fruits[i].active)
+                        continue;
+                    if (moving_Fruits[i].sliced)
+                        continue;
+
+                    int type = moving_Fruits[i].type;
+                    Texture2D texture = Fruits[type].Frame[0];
+
+                    Rectangle fruitRect ={moving_Fruits[i].position.x,moving_Fruits[i].position.y,texture.width,texture.height};
+
+                    if (CheckCollisionPointRec(mouse, fruitRect))
+                    {
+                        moving_Fruits[i].sliced = true;
+                        score += 10;
+                        if (score > maxScore)
+                        {
+                            maxScore = score;
+                        }
+
+                        moving_Fruits[i].slice1position = moving_Fruits[i].position;
+
+                        moving_Fruits[i].slice1velocity = moving_Fruits[i].velocity;
+
+                        moving_Fruits[i].slice2position = moving_Fruits[i].position;
+
+                        moving_Fruits[i].slice2velocity = moving_Fruits[i].velocity;
                     }
                 }
             }
@@ -189,7 +185,7 @@ int main(void)
                             moving_Fruits[i].slice2velocity.y += GetFrameTime() * 5.0;
                         }
 
-                        if (moving_Fruits[i].slice1position.y > HEIGHT && moving_Fruits[i].slice2position.y > HEIGHT)
+                        if (moving_Fruits[i].slice1position.y > HEIGHT || moving_Fruits[i].slice2position.y > HEIGHT)
                         {
                             moving_Fruits[i].active = false;
                         }
@@ -205,13 +201,7 @@ int main(void)
 
         DrawTexture(background, 0, 0, WHITE);
 
-        // life check
-        if (life <= 0)
-        {
-            DrawText("Game Over!", WIDTH / 2 - 50, HEIGHT / 2 - 10, 20, RED);
-            DrawText(TextFormat("Final Score: %d", score), WIDTH / 2 - 50, HEIGHT / 2 + 20, 20, RED);
-            DrawText("Press R to Restart", WIDTH / 2 - 50, HEIGHT / 2 + 50, 20, RED);
-        }
+
 
         for (int i = 0; i < MAX_FRUITS; i++)
         {
@@ -233,9 +223,11 @@ int main(void)
             }
         }
 
-        DrawText(TextFormat("Score: %d", score), 10, 10, 20, WHITE);
-        DrawText(TextFormat("High Score: %d", maxScore), 10, 40, 20, WHITE);
-        DrawText(TextFormat("Life: %d", life), 10, 70, 20, WHITE);
+        DrawText(TextFormat("Score: %d", score), 20, 20, 25, YELLOW);
+        DrawText(TextFormat("High Score: %d", maxScore), 300, 20, 25, YELLOW);
+        DrawText(TextFormat("Life: %d", life), 650, 20, 25, YELLOW);
+        
+        // Game Over
 
         if (life <= 0)
         {
