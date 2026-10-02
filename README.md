@@ -100,9 +100,9 @@ Some of the external sources listed in the game's Credits screen are:
 - Fruit Ninja Wiki / Fandom
 - Pexels
 - Gemini
-Please check the individual asset licenses and usage terms before redistributing the project or its assets.
 Credits
 Developed by:
+
 Abdul Kaium Mia
 ID: 2505126
 
