@@ -99,8 +99,12 @@ Some of the external sources listed in the game's Credits screen are:
 - Mixkit
 - Fruit Ninja Wiki / Fandom
 - Pexels
-- Gemini
+
+
+
 Credits
+
+
 Developed by:
 
 Abdul Kaium Mia
